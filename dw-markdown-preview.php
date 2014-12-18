@@ -79,12 +79,18 @@
       }
 
       public function add_preview($html) {
-        $html .= "<div class='dwmd-preview-title'>Preview</div><div class='dwmd-preview'></div>";
+        $html .= "<div class='dwmd-preview-title'>Preview</div><iframe class='dwmd-preview'></iframe>";
+        $html .= "<script type='text/javascript'>";
+        $html .= "jQuery(function($) {";
+        $html .= "var head = $('iframe').contents().find('head'); ";
+        $html .= "head.append($('<link/>', { rel: 'stylesheet', href: '" . get_stylesheet_directory_uri() . "/style.css', type: 'text/css' }));";
+        $html .= "});";
+        $html .= "</script>";
         return $html;
       }
 
       public function DWMDP_scripts($hook) {
-        if ( !in_array($hook,array('edit.php','post.php')) ) {
+        if ( !in_array($hook,array('edit.php','post.php','post-new.php')) ) {
           return;
         }
 

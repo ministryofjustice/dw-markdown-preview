@@ -1,19 +1,20 @@
 .dwmd-preview-title {
   width: 100%;
-  background-color: #000000;
+  background-color: #0074a2;
   color: #ffffff;
   text-transform: uppercase;
   margin: 0;
   padding: 3px 5px;
   box-sizing: border-box;
+  font-weight: bold;
 }
 
 .dwmd-preview {
-  border: 1px solid #000000;
-  padding: 4px;
+  border: 2px solid #0074a2;
+  padding: 3px;
   margin: 0;
   background-color: #ffffff;
   width: 100%;
   box-sizing: border-box;
-  min-height: 50px;
+  height: 250px;
 }
