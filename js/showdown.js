@@ -846,7 +846,7 @@ var _DoLists = function(text) {
       )
     )/g
   */
-  var whole_list = /^(([ ]{0,3}([*+-]|\d+[.])[ \t]+)[^\r]+?(~0|\n{2,}(?=\S)(?![ \t]*(?:[*+-]|\d+[.])[ \t]+)))/gm;
+  var whole_list = /^(([ ]{0,3}([*+-]|\d+[.]|[s]\d+\.)[ \t]+)[^\r]+?(~0|\n{2,}(?=\S)(?![ \t]*(?:[*+-]|\d+[.]|[s]\d+\.)[ \t]+)))/gm;
 
   if (g_list_level) {
     text = text.replace(whole_list,function(wholeMatch,m1,m2) {
@@ -867,17 +867,18 @@ var _DoLists = function(text) {
       return result;
     });
   } else {
-    whole_list = /(\n\n|^\n?)(([ ]{0,3}([*+-]|\d+[.])[ \t]+)[^\r]+?(~0|\n{2,}(?=\S)(?![ \t]*(?:[*+-]|\d+[.])[ \t]+)))/g;
+    whole_list = /(\n\n|^\n?)(([ ]{0,3}([*+-]|\d+[.]|[s]\d+\.)[ \t]+)[^\r]+?(~0|\n{2,}(?=\S)(?![ \t]*(?:[*+-]|\d+[.]|[s]\d+\.)[ \t]+)))/g;
     text = text.replace(whole_list,function(wholeMatch,m1,m2,m3) {
       var runup = m1;
       var list = m2;
 
       var list_type = (m3.search(/[*+-]/g)>-1) ? "ul" : "ol";
+      var list_class = (m3.search(/[s]\d+\./)>-1) ? "steps" : "";
       // Turn double returns into triple returns, so that we can make a
       // paragraph for the last item in a list, if necessary:
       var list = list.replace(/\n{2,}/g,"\n\n\n");;
       var result = _ProcessListItems(list);
-      result = runup + "<"+list_type+">\n" + result + "</"+list_type+">\n";
+      result = runup + "<"+list_type+" class='" + list_class + "'>\n" + result + "</"+list_type+">\n";
       return result;
     });
   }
@@ -932,7 +933,7 @@ _ProcessListItems = function(list_str) {
       (?= \n* (~0 | \2 ([*+-]|\d+[.]) [ \t]+))
     /gm, function(){...});
   */
-  list_str = list_str.replace(/(\n)?(^[ \t]*)([*+-]|\d+[.])[ \t]+([^\r]+?(\n{1,2}))(?=\n*(~0|\2([*+-]|\d+[.])[ \t]+))/gm,
+  list_str = list_str.replace(/(\n)?(^[ \t]*)([*+-]|\d+[.]|[s]\d+\.)[ \t]+([^\r]+?(\n{1,2}))(?=\n*(~0|\2([*+-]|\d+[.]|[s]\d+\.)[ \t]+))/gm,
     function(wholeMatch,m1,m2,m3,m4){
       var item = m4;
       var leading_line = m1;
