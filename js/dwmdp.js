@@ -1,13 +1,30 @@
 jQuery(function($) {
   var converter = new Showdown.converter();
-  updatePreview();
-  $("#content").keyup(function(){
-    updatePreview();
-  });
+  var $preview = $('.dwmd-preview');
+  var $previewTitle = $('.dwmd-preview-title');
+  var $previewElements = $preview.add($previewTitle);
+  var $editableContent = $("#content");
+  var $contentViewTabs = $('.wp-switch-editor');
+  var $contentWrapper = $('#wp-content-wrap');
 
-  function updatePreview() {
-    var txt = $("#content").val();
+  var togglePreview = function() {
+    if($contentWrapper.hasClass('html-active')) {
+      updatePreview();
+      $previewElements.show();
+    }
+    else {
+      $previewElements.hide();
+    }
+  };
+
+  var updatePreview = function() {
+    var txt = $editableContent.val();
     var html = converter.makeHtml(txt);
-    $(".dwmd-preview").contents().find('body').html(html);
+    $preview.contents().find('body').html(html);
   }
+
+  //init
+  togglePreview();
+  $editableContent.keyup(updatePreview);
+  $contentViewTabs.click(togglePreview);
 });
