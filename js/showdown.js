@@ -489,6 +489,7 @@ var _RunSpanGamut = function(text) {
 // tags like paragraphs, headers, and list items.
 //
 
+  text = _DoGovSpeakDivs(text);
   text = _DoCodeSpans(text);
   text = _EscapeSpecialCharsWithinTagAttributes(text);
   text = _EncodeBackslashEscapes(text);
@@ -1136,6 +1137,46 @@ var _DoItalicsAndBold = function(text) {
 
   text = text.replace(/(\*|_)(?=\S)([^\r]*?\S)\1/g,
     "<em>$2</em>");
+
+  return text;
+}
+
+var _DoGovSpeakDivs = function(text) {
+  // Download links ($D)
+  text = text.replace(/(~DD[ \n]*\[(.+)\]\([ \n]*(?:<(.+?)>|(.+))[ \n]*(([\'"])(.*?)\6[ \n]*)?\)[ \n]*~DD)/gm,
+    "<div class=\"form-download\"><p><a href=\"$4\" title=\"$7\">$2</a></p></div>");
+
+  // Information callouts (^...^)
+  text = text.replace(/^\^(.+)\^$/g,
+    "<div role=\"note\" aria-label=\"Information\" class=\"application-notice info-notice\">\n$1\n</div>");
+
+  // Warning callouts (%...%)
+  text = text.replace(/^%(.+)%$/g,
+    "<div role=\"note\" aria-label=\"Help\" class=\"application-notice help-notice\">\n$1\n</div>");
+
+  // Example callouts ($E)
+  text = text.replace(/~DE[ \n]*(.+)[ \n]*~DE/g,
+    "<div class=\"example\">\n$1\n</div>");
+
+  // Answer summaries ($!)
+  text = text.replace(/~D![ \n]*(.+)[ \n]*~D!/g,
+    "<div class=\"summary\">\n$1\n</div>");
+
+  // Contact callouts ($C)
+  text = text.replace(/~DC\n([^\r]*?)\n~DC/gm,
+    function(wholeMatch,m1) {
+      c = m1.replace(/(?:\r\n|\r|\n)/g, '<br />');
+      return "<div class=\"contact\">"+c+"</div>";
+    }
+  );
+  
+  // Address callouts ($C)
+  text = text.replace(/~DA\n([^\r]*?)\n~DA/gm,
+    function(wholeMatch,m1) {
+      c = m1.replace(/(?:\r\n|\r|\n)/g, '<br />');
+      return "<div class=\"address\"><div class=\"adr org fn\">"+c+"</div></div>";
+    }
+  );
 
   return text;
 }
