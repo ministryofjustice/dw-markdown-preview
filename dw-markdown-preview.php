@@ -4,12 +4,14 @@
   Plugin Name: DW Markdown Preview
   Description: Provides a live preview of markdown entered (if jp-markdown is installed and activated)
   Author: Ryan Jarrett
-  Version: 0.1
+  Version: 0.1.1
   Author URI: http://sparkdevelopment.co.uk
 
   Changelog
   ---------
   0.1   - initial release
+
+  0.1.1 - fixed some visual bugs and added GovSpeak elements
 */
 
   if (!defined('ABSPATH')) {
@@ -95,6 +97,7 @@
         }
 
         wp_enqueue_script( 'showdown', plugin_dir_url( __FILE__ ) . 'js/showdown.js', 'jquery' );
+        wp_enqueue_script( 'showdown-tables', plugin_dir_url( __FILE__ ) . 'js/extensions/table.js', 'showdown' );
         wp_enqueue_script( 'dwmdp', plugin_dir_url( __FILE__ ) . 'js/dwmdp.js' );
 
         wp_enqueue_style( 'dwmdp', plugin_dir_url( __FILE__ ) . 'css/preview.css' );

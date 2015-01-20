@@ -1,5 +1,5 @@
 jQuery(function($) {
-  var converter = new Showdown.converter();
+  var converter = new Showdown.converter({extensions: ['table']});
   var $preview = $('.dwmd-preview');
   var $previewTitle = $('.dwmd-preview-title');
   var $previewElements = $preview.add($previewTitle);

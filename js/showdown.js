@@ -64,7 +64,7 @@
 //
 // Showdown namespace
 //
-var Showdown = { extensions: {} };
+var Showdown = { extensions: ['table'] };
 
 //
 // forEach
