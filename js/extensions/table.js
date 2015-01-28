@@ -82,11 +82,11 @@
             for(j=0;j<align.length;j+=1) {
               // add regex to determine alignments and set in array
               if (align[j].trim().match(/^ *-+: *$/)) {
-                attr[j]=' align="right"';
+                attr[j]=' class="right"';
               } else if (align[j].trim().match(/^ *:-+: *$/)) {
-                attr[j]=' align="center"';
+                attr[j]=' class="center"';
               } else {
-                attr[j]=' align="left"';
+                attr[j]=' class="left"';
               }
             }
             // console.log(align,attr);
